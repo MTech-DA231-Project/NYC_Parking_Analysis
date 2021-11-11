@@ -1,4 +1,4 @@
-# NYC_Parking_Analysis# NYC Parking Violation Data Analysis
+# NYC Parking Violation Data Analysis
 
 MTech Mini Project
 
