@@ -39,7 +39,7 @@ sudhakark@iisc.ac.in
 
 → Analyzing **NYC Parking violation** data from **2017** – **2021**
 
-https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2022/pvqr-7yc
+https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2022/pvqr-7yc4
 
 → Infer from the data analysis findings
 
