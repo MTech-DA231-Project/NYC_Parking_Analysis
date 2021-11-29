@@ -32,6 +32,9 @@ git push -f origin main
 # Switch to your new branch
 `git checkout newfeature`
 
+# Commit changes
+git commit -am "msg"
+
 # Fetch upstream main and merge with your repo's main branch
 ```
 git fetch upstream
