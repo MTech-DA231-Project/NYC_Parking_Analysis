@@ -1,5 +1,6 @@
-# data files
-data/
+# data files/ Allow sample files upload
+data/*
+!data/sample*.csv
 
 
 # Byte-compiled / optimized / DLL files
