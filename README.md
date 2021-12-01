@@ -37,7 +37,7 @@ sudhakark@iisc.ac.in
 ## PROBLEM
 
 
-→ Analyzing **NYC Parking violation** data from **2017** – **2021**
+→ Analyzing **NYC Parking violation** data for **2017** – **2021** years
 
 https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2022/pvqr-7yc4
 
