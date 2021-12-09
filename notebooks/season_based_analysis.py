@@ -1,6 +1,7 @@
 from pyspark.sql.functions import expr, col, lit, year
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 def violations_in_year(nyc_data, vyear):
     return nyc_data.select('issue_date').filter(year('issue_date') == vyear).count()
@@ -19,11 +20,13 @@ def reduction_in_violations(nyc_data):
     ax.set_ylabel("Violations")
     ax.bar(years, violations, color='blue')
 
+    fig.savefig('../output/reduction_in_violations.png')
     reduction_2019_2018 = ((violations_2018 - violations_2019)/violations_2018) * 100
     reduction_2020_2018 = ((violations_2019 - violations_2020)/violations_2019) * 100
-    print(f'Reduction in 2019 from 2018 {reduction_2019_2018}')
-    print(f'Reduction in 2020 from 2019 {reduction_2020_2018}')
-    return [reduction_2019_2018, reduction_2020_2018]
+
+    reduction_data = [('Reduction 2019 from 2018', reduction_2019_2018), ('Reduction 2020 from 2019',reduction_2020_2018)]
+    reduction_pad = pd.DataFrame(reduction_data, columns = ['Reduction Years', 'Reduction'])
+    return reduction_pad
 
 def season_violation_frequencies(nyc_data):
     season_bins = nyc_data.withColumn('season', expr("case when month(issue_date) in (12, 1, 2) then 'winter'\
@@ -42,9 +45,9 @@ def season_violation_frequencies(nyc_data):
     ax.set_title("Season Vs Violations")
     ax.set_xlabel("Season")
     ax.set_ylabel("Violations")
-    ax.bar(seasons, frequencies, color='green')
-
-    return season_freq
+    ax.bar(seasons, frequencies, color=['green', 'cyan','yellow'])
+    fig.savefig('../output/season_violation_frequencies.png')
+    return season_freq.toPandas()
 
 def season_violations(season_bins, season):
     violation_by_season = season_bins.select('season', 'violation_code')\
@@ -96,5 +99,8 @@ def common_violations_season(nyc_data):
     ax.set_ylabel("Violations")
     ax.legend(["spring", "winter", "summer", "autumn"])
 
+    fig.savefig('../output/common_violations_season.png')
     seasonwise_violations = spring_violations + winter_violations + summer_violations + autumn_violations
-    return seasonwise_violations
+    pd_seasonwise_violations = pd.DataFrame(seasonwise_violations, columns = ['Violation Code', 'Frequency', 'Season'])
+    
+    return pd_seasonwise_violations
