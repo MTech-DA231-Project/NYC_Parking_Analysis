@@ -1,5 +1,6 @@
 # To add a new cell, type '# %%'
 # To add a new markdown cell, type '# %% [markdown]'
+
 # %% [markdown]
 # ## Pre-processing Functions
 #
@@ -21,7 +22,7 @@ from pyspark.sql.functions import col
 # %%
 def remove_unused_columns(df, used_columns):
 
-  print('\n############### Removing the columns which are not used in our analysis #######################')
+  print('\n################ Removing the columns which are not used in our analysis #######################')
   # Not used columns
   # "Issuing Agency", "Street Code1", "Street Code2", "Street Code3", "Vehicle Expiration Date", "Violation Location", "Issuer Code", "Issuer Command", "Issuer Squad", "Time First Observed", "Violation County", "Violation In Front Of Or Opposite", "House Number", "Street Name", "Intersecting Street", "Date First Observed", "Law Section", "Sub Division", "Violation Legal Code", "Days Parking In Effect    ", "From Hours In Effect", "To Hours In Effect", "Unregistered Vehicle?", "Vehicle Year", "Meter Number", "Feet From Curb", "Violation Post Code", "No Standing or Stopping Violation", "Hydrant Violation", "Double Parking Violation"
 
@@ -31,7 +32,7 @@ def remove_unused_columns(df, used_columns):
 
   df = df.drop(*unused_columns)
 
-  print(f'No. of Columns (before dropping columns) : {len(all_columns)}')
+  print(f'\nNo. of Columns (before dropping columns) : {len(all_columns)}')
   print(f'No. of Columns (after dropping columns) : {len(df.columns)}')
 
   return df
@@ -40,15 +41,16 @@ def remove_unused_columns(df, used_columns):
 # ### Dropping Duplicate Rows
 
 # %%
-def drop_duplicates(df):
+def drop_duplicates_nulls(df):
 
-  print('\n#################### Dropping Duplicate Rows ################################')
+  print('\n########################## Dropping Duplicate & Null Rows ######################################')
   before = df.count()
 
+  df = df.na.drop("all") # Drops the rows which are having null in all the columns
   df = df.drop_duplicates()
 
-  print(f'No. of Records (before dropping duplicates) : {before}')
-  print(f'No. of Records (after dropping duplicates) : {df.count()}')
+  print(f'No. of Records (before dropping duplicates & NUlls) : {before}')
+  print(f'No. of Records (after dropping duplicates & NULLs) : {df.count()}')
 
   return df
 
@@ -58,7 +60,7 @@ def drop_duplicates(df):
 # %%
 def santize_column_names(df):
 
-  print('\n######### Converting column names to lower case & replacing spaces with _ ############')
+  print('\n############## Converting column names to lower case & replacing spaces with "_" ###############')
   before = df.columns
 
   ## Slow
@@ -67,8 +69,8 @@ def santize_column_names(df):
 
   df = df.select([col(c).alias(c.lower().replace(" ", '_')) for c in df.columns])
 
-  print(f'Columns (before sanitizing column names) : {before}')
-  print(f'Columns (after sanitizing column names) : {df.columns}')
+  print(f'\nColumns (before sanitizing column names) : {before}')
+  print(f'\nColumns (after sanitizing column names) : {df.columns}')
 
   return df
 
@@ -78,7 +80,7 @@ def santize_column_names(df):
 # %%
 def assert_uniqueness(df, column_name):
 
-  print(f"\n######### Ensure all the values in '{column_name}' column are unique ##################")
+  print(f"\n################# Ensure all the values in '{column_name}' column are unique ##################")
 
   all_rows      = df.select(column_name).count()
   distinct_rows = df.select(column_name).distinct().count()
@@ -95,7 +97,7 @@ def assert_uniqueness(df, column_name):
 # %%
 def convert_to_date(df, column_name, format):
 
-  print('\n############ Converting issue date string type to Date type ################')
+  print('\n###################### Converting issue date string type to Date type ##########################')
 
   df = (
         df
@@ -113,10 +115,17 @@ def convert_to_date(df, column_name, format):
 # %%
 def remove_outside_years_data(df, years, column_name):
 
-  print('\n############ Removing the rows which are outside of the passed years ################')
+  print('\n################### Removing the rows which are outside of the passed years ####################')
 
-  print(f'Distinct years in {column_name} (before removing) :')
-  df.select(F.year(col(column_name))).distinct().show()
+  print(f'\nDistinct years in {column_name} (before removing) :')
+  (
+    df
+    .select(F.year(col(column_name)).alias("year"), 'summons_number')
+    .groupBy("year")
+    .agg(F.count("summons_number").alias("No. of violations"))
+    .sort("year")
+    .show()
+  )
 
   min_year = min(years)
   max_year = max(years)
@@ -131,7 +140,7 @@ def remove_outside_years_data(df, years, column_name):
         )
       )
 
-  print(f'Distinct years in {column_name} (after removing) : ')
+  print(f'Distinct years in {column_name} (after removing data outside of 2017-2021) : ')
   df.select(F.year(col(column_name))).distinct().show()
 
   return df
@@ -171,5 +180,4 @@ def get_schema(schema_columns, schema_types):
     schema.append(schema_str)
 
   return ','.join(schema)
-
 
