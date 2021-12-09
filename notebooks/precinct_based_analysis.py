@@ -36,7 +36,7 @@ def violation_code_frequency_top3_precincts(nyc_data, print_enable = False):
         ax.set_title("Violations Vs Frequencies")
         ax.set_xlabel("Violations")
         ax.set_ylabel("Frequencies")
-        ax.bar(violations, frequencies)
+        ax.bar(violations[:5], frequencies[:5])
 
         fig.savefig('../output/violation_code_frequency_top3_precincts.png')
 
