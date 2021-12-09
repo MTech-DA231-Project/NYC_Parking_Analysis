@@ -5,14 +5,14 @@ MTech Mini Project
 IISC | M.Tech (Online) | DSBA DA 231-O Data Engineering at Scale
 
 Mentor: **Yogesh Simmhan**
-simmhan@iisc.ac.in
+simmhan @ iisc.ac.in
 
 ## TEAM
 
-1. Satyam Kumar | satyamk@iisc.ac.in | 9092696415
-2. Siva Kranthi Kumar Mallipeddi | sivam@iisc.ac.in | 9986778909
-3. Sreedhar Reddy Vundela | sreedharv@iisc.ac.in | 9886702749
-4. Sudhakar Kulkarni Mukayya | sudhakark@iisc.ac.in | 9035076656
+1. Satyam Kumar | satyamk@iisc.ac.in
+2. Siva Kranthi Kumar Mallipeddi | sivam @ iisc.ac.in
+3. Sreedhar Reddy Vundela | sreedharv @ iisc.ac.in
+4. Sudhakar Kulkarni Mukayya | sudhakark @ iisc.ac.in
 
 
 ## PROBLEM
@@ -136,4 +136,3 @@ Metrics
 http://www.kaggle.com/sarthaksarbahi/nyc-parking-tickets-analysis
 
 http://www.slidescarnival.com
-

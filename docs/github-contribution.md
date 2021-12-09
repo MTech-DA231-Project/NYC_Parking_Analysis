@@ -1,3 +1,10 @@
+# Checklist
+1. Give title for all the plots
+2. Remove/comment unnecessary print statements
+3. Sort the output data in descending order unless we are finding for the lowest
+4. Capture the analysis observation in respective markdown cells (ex: invalid violation code 0 is the top 1 in the frequency)
+5. Check for TODO tags
+
 # Add 'upstream' repo to list of remotes
 `git remote add upstream git@github.com:MTech-DA231-Project/NYC_Parking_Analysis.git`
 
