@@ -1,3 +1,4 @@
+
 def three_most_common_voilations_in_6_time_bins (spark, print_enable = False):
 
     #NYCPV is the SQL view cretaed using the dataframe. The dataframe is created with the same below spark session.
@@ -54,26 +55,47 @@ def three_most_common_voilations_in_6_time_bins (spark, print_enable = False):
                                               from NYCPV_VT_NN_TB group by violation_code,violation_time_bin")
 
     #Create Seperate dataframes for each time bin and group them with Voilation code and count in descending order, so we can pick top 3.
-    violation_code_count_bin_df_1 = spark.sql("select violation_time_bin,violation_code,count(*) violation_count \
+    violation_code_count_bin_pd_1 = spark.sql("select violation_time_bin,violation_time_bin violation_time,violation_code,count(*) violation_count \
                                                from NYCPV_VT_NN_TB where violation_time_bin == 1 \
-                                               group by violation_time_bin,violation_code order by violation_count desc")
-    violation_code_count_bin_df_2 = spark.sql("select violation_time_bin,violation_code,count(*) violation_count \
+                                               group by violation_time_bin,violation_code order by violation_count desc").limit(3).toPandas()
+    violation_code_count_bin_pd_2 = spark.sql("select violation_time_bin,violation_time_bin violation_time,violation_code,count(*) violation_count \
                                                from NYCPV_VT_NN_TB where violation_time_bin == 2 \
-                                               group by violation_time_bin,violation_code order by violation_count desc")
-    violation_code_count_bin_df_3 = spark.sql("select violation_time_bin,violation_code,count(*) violation_count \
+                                               group by violation_time_bin,violation_code order by violation_count desc").limit(3).toPandas()
+    violation_code_count_bin_pd_3 = spark.sql("select violation_time_bin,violation_time_bin violation_time,violation_code,count(*) violation_count \
                                                from NYCPV_VT_NN_TB where violation_time_bin == 3 \
-                                               group by violation_time_bin,violation_code order by violation_count desc")
-    violation_code_count_bin_df_4 = spark.sql("select violation_time_bin,violation_code,count(*) violation_count \
+                                               group by violation_time_bin,violation_code order by violation_count desc").limit(3).toPandas()
+    violation_code_count_bin_pd_4 = spark.sql("select violation_time_bin,violation_time_bin violation_time,violation_code,count(*) violation_count \
                                                from NYCPV_VT_NN_TB where violation_time_bin == 4 \
-                                               group by violation_time_bin,violation_code order by violation_count desc")
-    violation_code_count_bin_df_5 = spark.sql("select violation_time_bin,violation_code,count(*) violation_count \
+                                               group by violation_time_bin,violation_code order by violation_count desc").limit(3).toPandas()
+    violation_code_count_bin_pd_5 = spark.sql("select violation_time_bin,violation_time_bin violation_time,violation_code,count(*) violation_count \
                                                from NYCPV_VT_NN_TB where violation_time_bin == 5 \
-                                               group by violation_time_bin,violation_code order by violation_count desc")
-    violation_code_count_bin_df_6 = spark.sql("select violation_time_bin,violation_code,count(*) violation_count \
+                                               group by violation_time_bin,violation_code order by violation_count desc").limit(3).toPandas()
+    violation_code_count_bin_pd_6 = spark.sql("select violation_time_bin,violation_time_bin violation_time,violation_code,count(*) violation_count \
                                                from NYCPV_VT_NN_TB where violation_time_bin == 6 \
-                                               group by violation_time_bin,violation_code order by violation_count desc")
+                                               group by violation_time_bin,violation_code order by violation_count desc").limit(3).toPandas()
     
 
+    # Divide 24 hours into six equal discrete bins of time.
+    # Bin       Time Interval
+    # 1         12:00 AM to 4:00 AM
+    # 2         4:00 AM to 8:00 AM
+    # 3         8:00 AM to 12:00 PM
+    # 4         12:00 PM to 4:00 PM
+    # 5         4:00 PM to 8:00 PM
+    # 6         8:00 PM to 12:00 AM
+    time_bin_to_time = {1:'12:00 AM to 4:00 AM', \
+                        2:'4:00 AM to 8:00 AM', \
+                        3:'8:00 AM to 12:00 PM', \
+                        4:'12:00 PM to 4:00 PM', \
+                        5:'4:00 PM to 8:00 PM', \
+                        6:'8:00 PM to 12:00 AM'}
+
+    violation_code_count_bin_pd_1['violation_time'].replace(time_bin_to_time, inplace=True)
+    violation_code_count_bin_pd_2['violation_time'].replace(time_bin_to_time, inplace=True)
+    violation_code_count_bin_pd_3['violation_time'].replace(time_bin_to_time, inplace=True)
+    violation_code_count_bin_pd_4['violation_time'].replace(time_bin_to_time, inplace=True)
+    violation_code_count_bin_pd_5['violation_time'].replace(time_bin_to_time, inplace=True)
+    violation_code_count_bin_pd_6['violation_time'].replace(time_bin_to_time, inplace=True)
 
     
     if print_enable:
@@ -87,16 +109,13 @@ def three_most_common_voilations_in_6_time_bins (spark, print_enable = False):
         #violation_code_time_count_df.show()
 
         #Now Pick up to 3 violation codes which are descending order from df, 
-        violation_code_count_bin_df_1.show(3)
-        violation_code_count_bin_df_2.show(3)
-        violation_code_count_bin_df_3.show(3)
-        violation_code_count_bin_df_4.show(3)
-        violation_code_count_bin_df_5.show(3)
-        violation_code_count_bin_df_6.show(3)
-        
-        
+        print(violation_code_count_bin_pd_1)
+        print(violation_code_count_bin_pd_2)
+        print(violation_code_count_bin_pd_3)
+        print(violation_code_count_bin_pd_4)
+        print(violation_code_count_bin_pd_5)
+        print(violation_code_count_bin_pd_6)
 
-    return 1
 
 def five_most_common_Voilations_with_times(spark, print_enable = False):
 
@@ -130,7 +149,6 @@ def five_most_common_Voilations_with_times(spark, print_enable = False):
 
     
     if print_enable:
-        violation_code_time_count_pd
+        print(violation_code_time_count_pd)
 
-
-    return violation_code_time_count_pd
+    return  violation_code_time_count_pd   
