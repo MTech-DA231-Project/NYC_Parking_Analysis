@@ -105,15 +105,32 @@ def five_most_common_Voilations_with_times(spark, print_enable = False):
       
 
     #select voilation code and bin from sql view which we need for further identifying 3 most common violation codes.
-    violation_code_time_count_df = spark.sql("SELECT violation_code,violation_time_bin, count(*) voilation_count \
+    violation_code_time_count_df = spark.sql("SELECT violation_code,violation_time_bin, violation_time_bin violation_time,  count(*) voilation_count \
                                               from NYCPV_VT_NN_TB group by violation_code,violation_time_bin \
                                               order by voilation_count desc")                                         
 
 
-    
+    violation_code_time_count_pd = violation_code_time_count_df.limit(5).toPandas()
+
+    # Divide 24 hours into six equal discrete bins of time.
+    # Bin       Time Interval
+    # 1         12:00 AM to 4:00 AM
+    # 2         4:00 AM to 8:00 AM
+    # 3         8:00 AM to 12:00 PM
+    # 4         12:00 PM to 4:00 PM
+    # 5         4:00 PM to 8:00 PM
+    # 6         8:00 PM to 12:00 AM
+    time_bin_to_time = {1:'12:00 AM to 4:00 AM', \
+                        2:'4:00 AM to 8:00 AM', \
+                        3:'8:00 AM to 12:00 PM', \
+                        4:'12:00 PM to 4:00 PM', \
+                        5:'4:00 PM to 8:00 PM', \
+                        6:'8:00 PM to 12:00 AM'}
+    violation_code_time_count_pd['violation_time'].replace(time_bin_to_time, inplace=True)
+
     
     if print_enable:
-        violation_code_time_count_df.limit(5).toPandas()
+        violation_code_time_count_pd
 
 
-    return violation_code_time_count_df.limit(5).toPandas()
+    return violation_code_time_count_pd
