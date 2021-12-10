@@ -1,11 +1,11 @@
 
 # importing package
 import matplotlib.pyplot as plt
-  
+import numpy as np  
+import pandas as pd
 
 
-
-def three_most_common_voilations_in_6_time_bins (spark, print_enable = False):
+def three_most_common_violations_in_6_time_bins (spark, print_enable = False):
 
     #NYCPV is the SQL view cretaed using the dataframe. The dataframe is created with the same below spark session.
     #So the life cycle of the view is till the life cycle of spark session object.
@@ -89,12 +89,12 @@ def three_most_common_voilations_in_6_time_bins (spark, print_enable = False):
     # 4         12:00 PM to 4:00 PM
     # 5         4:00 PM to 8:00 PM
     # 6         8:00 PM to 12:00 AM
-    time_bin_to_time = {1:'12:00 AM to 4:00 AM', \
-                        2:'4:00 AM to 8:00 AM', \
-                        3:'8:00 AM to 12:00 PM', \
-                        4:'12:00 PM to 4:00 PM', \
-                        5:'4:00 PM to 8:00 PM', \
-                        6:'8:00 PM to 12:00 AM'}
+    time_bin_to_time = {1:'12AM-4AM', \
+                        2:'4AM-8AM', \
+                        3:'8AM-12PM', \
+                        4:'12PM-4PM', \
+                        5:'4PM-8PM', \
+                        6:'8PM-12AM'}
 
     violation_code_count_bin_pd_1['violation_time'].replace(time_bin_to_time, inplace=True)
     violation_code_count_bin_pd_2['violation_time'].replace(time_bin_to_time, inplace=True)
@@ -102,8 +102,6 @@ def three_most_common_voilations_in_6_time_bins (spark, print_enable = False):
     violation_code_count_bin_pd_4['violation_time'].replace(time_bin_to_time, inplace=True)
     violation_code_count_bin_pd_5['violation_time'].replace(time_bin_to_time, inplace=True)
     violation_code_count_bin_pd_6['violation_time'].replace(time_bin_to_time, inplace=True)
-
-
 
     
     if print_enable:
@@ -125,7 +123,8 @@ def three_most_common_voilations_in_6_time_bins (spark, print_enable = False):
         print(violation_code_count_bin_pd_6)
 
 
-def five_most_common_Voilations_with_times(spark, print_enable = False):
+
+def five_most_common_Violations_with_times(spark, print_enable = False):
 
     #Already NYCPV_VT_NN_TB sql view with time bins is created in previous method.
     # The SQL view will be available in spark session for further processing. Reuse the same.
@@ -147,12 +146,12 @@ def five_most_common_Voilations_with_times(spark, print_enable = False):
     # 4         12:00 PM to 4:00 PM
     # 5         4:00 PM to 8:00 PM
     # 6         8:00 PM to 12:00 AM
-    time_bin_to_time = {1:'12 AM -> 4 AM', \
-                        2:'4 AM -> 8 AM', \
-                        3:'8 AM -> 12 PM', \
-                        4:'12 PM -> 4PM', \
-                        5:'4 PM -> 8PM', \
-                        6:'8 PM -> 12AM'}
+    time_bin_to_time = {1:'12AM-4AM', \
+                        2:'4AM-8AM', \
+                        3:'8AM-12PM', \
+                        4:'12PM-4PM', \
+                        5:'4PM-8PM', \
+                        6:'8PM-12AM'}
     violation_code_time_count_pd['violation_time'].replace(time_bin_to_time, inplace=True)
 
     violation_code_list = violation_code_time_count_pd["violation_code"].tolist()
@@ -160,8 +159,7 @@ def five_most_common_Voilations_with_times(spark, print_enable = False):
     violation_time_list = violation_code_time_count_pd["violation_time"].tolist()
 
     five_most_common_Voilations_with_times_list = [str(violation_code_list[i]) + \
-                                                   "_" + str(violation_time_bin_list[i]) + \
-                                                   " " + str(violation_time_list[i]) \
+                                                   ", " + str(violation_time_list[i]) \
                                                    for i in range(len(violation_code_list))]
     voilation_count_list = violation_code_time_count_pd["voilation_count"].tolist()
 
@@ -169,10 +167,9 @@ def five_most_common_Voilations_with_times(spark, print_enable = False):
     fig = plt.figure(figsize = (10, 5))
     
     # creating the bar plot
-    plt.bar(five_most_common_Voilations_with_times_list, voilation_count_list, color ='maroon',
-            width = 0.4)
+    plt.bar(five_most_common_Voilations_with_times_list, voilation_count_list, width = 0.4)
     
-    plt.xlabel("ViolationCode_Bin TIme")
+    plt.xlabel("ViolationCode, TIme")
     plt.ylabel("Violation Count")
     plt.title("Five Most Common Voilations With Times")
 
@@ -180,4 +177,4 @@ def five_most_common_Voilations_with_times(spark, print_enable = False):
     if print_enable:
         print(violation_code_time_count_pd)
 
-    return  plt.show()  
+    return  plt.show()
