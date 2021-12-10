@@ -164,17 +164,17 @@ def five_most_common_Violations_with_times(spark, print_enable = False):
     voilation_count_list = violation_code_time_count_pd["voilation_count"].tolist()
 
        
-    fig = plt.figure(figsize = (10, 5))
-    
-    # creating the bar plot
-    plt.bar(five_most_common_Voilations_with_times_list, voilation_count_list, width = 0.4)
-    
-    plt.xlabel("ViolationCode, TIme")
-    plt.ylabel("Violation Count")
-    plt.title("Five Most Common Voilations With Times")
 
-    
     if print_enable:
         print(violation_code_time_count_pd)
+        fig = plt.figure(figsize = (10, 5))
 
-    return  plt.show()
+        # creating the bar plot
+        plt.bar(five_most_common_Voilations_with_times_list, voilation_count_list, width = 0.4)
+
+        plt.xlabel("ViolationCode, TIme")
+        plt.ylabel("Violation Count")
+        plt.title("Five Most Common Voilations With Times")
+
+        plt.savefig("../output/five_most_common_violations_with_times.png")
+        plt.show()
