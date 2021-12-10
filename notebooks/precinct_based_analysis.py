@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 def violating_precicts(nyc_data, enable_plot=True):
     nyc_precints = nyc_data.select('violation_precinct')\
+                           .filter(col('violation_precinct') != 0)\
                            .groupBy('violation_precinct')\
                            .agg({'violation_precinct':'count'})\
                            .withColumnRenamed("count(violation_precinct)", "no_of_violations")\
@@ -22,6 +23,7 @@ def violating_precicts(nyc_data, enable_plot=True):
 
 def issuing_precincts(nyc_data, enable_plot=True):
     nyc_precints = nyc_data.select('issuer_precinct')\
+                           .filter(col('issuer_precinct') != 0)\
                            .groupBy('issuer_precinct')\
                            .agg({'issuer_precinct':'count'})\
                            .withColumnRenamed("count(issuer_precinct)", "no_of_violations")\
@@ -40,7 +42,9 @@ def issuing_precincts(nyc_data, enable_plot=True):
     return nyc_precints_pd
 
 def violation_code_frequency_top3_precincts(nyc_data, enable_plot=True):
-    top3_precints = nyc_data.select('issuer_precinct')\
+    top3_precints = nyc_data.filter(col('violation_code') != 0)\
+                           .filter(col('issuer_precinct') != 0)\
+                           .select('issuer_precinct')\
                            .groupBy('issuer_precinct')\
                            .agg({'issuer_precinct':'count'})\
                            .sort('count(issuer_precinct)', ascending=False)\
@@ -66,5 +70,6 @@ def violation_code_frequency_top3_precincts(nyc_data, enable_plot=True):
         ax.bar(violations[:10], frequencies[:10])
 
         fig.savefig('../output/violation_code_frequency_top3_precincts.png')
+        print("Top 3 Violating Precicts :", top3)
 
     return violation_frequencies_df.toPandas()
