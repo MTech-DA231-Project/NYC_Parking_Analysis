@@ -10,12 +10,13 @@ def violating_precicts(nyc_data, enable_plot=True):
 
     nyc_precints_pd =nyc_precints.toPandas()
 
-    ax = nyc_precints_pd.head(10).plot.bar(x='violation_precinct', y='no_of_violations', figsize=(10, 5))
-    ax.set_title("Police Precinct Zone vs No. of violations")
-    ax.set_xlabel("Police Precinct Zone")
-    ax.set_ylabel("No. of Violations")
-    fig = ax.get_figure()
-    fig.savefig('../output/violating_precicts.png')
+    if enable_plot:
+        ax = nyc_precints_pd.head(10).plot.bar(x='violation_precinct', y='no_of_violations', figsize=(10, 5))
+        ax.set_title("Police Precinct Zone vs No. of violations")
+        ax.set_xlabel("Police Precinct Zone")
+        ax.set_ylabel("No. of Violations")
+        fig = ax.get_figure()
+        fig.savefig('../output/violating_precicts.png')
 
     return nyc_precints_pd
 
@@ -28,12 +29,13 @@ def issuing_precincts(nyc_data, enable_plot=True):
 
     nyc_precints_pd =nyc_precints.toPandas()
 
-    ax = nyc_precints_pd.head(10).plot.bar(x='issuer_precinct', y='no_of_violations', figsize=(10, 5))
-    ax.set_title("Police Precinct vs No. of issued violations")
-    ax.set_xlabel("Police Precinct")
-    ax.set_ylabel("No. of issued violations")
-    fig = ax.get_figure()
-    fig.savefig('../output/issuing_precincts.png')
+    if enable_plot:
+        ax = nyc_precints_pd.head(10).plot.bar(x='issuer_precinct', y='no_of_violations', figsize=(10, 5))
+        ax.set_title("Police Precinct vs No. of issued violations")
+        ax.set_xlabel("Police Precinct")
+        ax.set_ylabel("No. of issued violations")
+        fig = ax.get_figure()
+        fig.savefig('../output/issuing_precincts.png')
 
     return nyc_precints_pd
 
