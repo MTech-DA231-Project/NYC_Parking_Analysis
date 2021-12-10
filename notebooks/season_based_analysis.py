@@ -15,10 +15,10 @@ def reduction_in_violations(nyc_data, enable_plot=True):
     violations = [violations_2018, violations_2019, violations_2020]
 
     if enable_plot:
-        fig, ax = plt.subplots(1, 1, figsize=(5,5))
-        ax.set_title("Year Vs Violations of Matrix")
+        fig, ax = plt.subplots(1, 1, figsize=(10,5))
+        ax.set_title("Year Vs No. of violations")
         ax.set_xlabel("Year")
-        ax.set_ylabel("Violations")
+        ax.set_ylabel("No. of violations")
         ax.bar(years, violations, color='blue')
 
         fig.savefig('../output/reduction_in_violations.png')
@@ -44,10 +44,10 @@ def season_violation_frequencies(nyc_data, enable_plot=True):
     frequencies = [row['No of tickets'] for row in season_freq_data]
 
     if enable_plot:
-        fig, ax = plt.subplots(1, 1, figsize=(5,5))
-        ax.set_title("Season Vs Violations")
+        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
+        ax.set_title("Season Vs No. of violations")
         ax.set_xlabel("Season")
-        ax.set_ylabel("Violations")
+        ax.set_ylabel("No. of violations")
         ax.bar(seasons, frequencies, color=['green', 'cyan','yellow'])
         fig.savefig('../output/season_violation_frequencies.png')
 

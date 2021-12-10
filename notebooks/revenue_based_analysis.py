@@ -1,15 +1,40 @@
 from pyspark.sql.functions import count, desc
 import pandas as pd
 
-def yearly_revenue(data_frame):
-    years = ["2017", "2018", "2019", "2020", "2021", "2022"]
+def yearly_revenue(data_frame, enable_plot=True):
+    years = ["2017", "2018", "2019", "2020", "2021"]
+    dict_df = {'year': [], "revenue": []}
     for year in years:
         violation_count = get_violation_df__yearly(data_frame, year)
-        print(year, " : ", accumulatedTax_per_Violation(violation_count)['cost'].sum())
+        revenue = accumulatedTax_per_Violation(violation_count)['cost'].sum()
+        dict_df['year'].append(year)
+        dict_df['revenue'].append(revenue)
 
-def highest_revenue(data_frame):
+    yearly_revenue_pd = pd.DataFrame(dict_df)
+
+    if enable_plot:
+      ax = yearly_revenue_pd.head(10).plot.bar(x='year', y='revenue', figsize=(10, 5))
+      ax.set_title("Year vs Revenue ($)")
+      ax.set_xlabel("Year")
+      ax.set_ylabel("Revenue ($)")
+      fig = ax.get_figure()
+      fig.savefig('../output/yearly_revenue.png')
+
+    return yearly_revenue_pd
+
+def highest_revenue(data_frame, enable_plot=True):
     violation_count =  get_violation_df__yearly(data_frame, "")
-    return accumulatedTax_per_Violation(violation_count).head(5)
+    highest_revenue_pd = accumulatedTax_per_Violation(violation_count)
+
+    if enable_plot:
+      ax = highest_revenue_pd.head(10).plot.bar(x='violation_code', y='cost', figsize=(10, 5))
+      ax.set_title("Violation Code vs Revenue ($)")
+      ax.set_xlabel("Violation Code")
+      ax.set_ylabel("Revenue ($)")
+      fig = ax.get_figure()
+      fig.savefig('../output/highest_revenue.png')
+
+    return highest_revenue_pd
 
 def calulateTax(violation_code, frequency, dict_map):
     price_rate = dict_map.get(int(violation_code))
