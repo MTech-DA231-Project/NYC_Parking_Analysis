@@ -12,9 +12,12 @@ def violation_frequencey(data_frame, enable_plot=True):
     q3_for_plot = violation_count.toPandas()
 
     if enable_plot:
-        plt.clf()
-        q3_for_plot.head(5).plot(x='violation_code', y='no_of_tickets', kind='bar')
-        plt.savefig('../output/violation_frequencey.png')
+      ax = q3_for_plot.head(10).plot.bar(x='violation_code', y='no_of_tickets', figsize=(10, 5))
+      ax.set_title("Violation Code vs No. of violations")
+      ax.set_xlabel("Violation Code")
+      ax.set_ylabel("No. of Violations")
+      fig = ax.get_figure()
+      fig.savefig('../output/violation_frequencey.png')
 
     return q3_for_plot
 
@@ -29,12 +32,12 @@ def violations_by_bodytype(data_frame, enable_plot=True):
     vehicleBodyType_for_plot = body_type.toPandas()
 
     if enable_plot:
-        plt.clf()
-        vehicleBodyType_for_plot.head(5).plot(x='vehicle_body_type', y='Ticket_Frequency', kind='bar')
-        plt.title("Violations on the basis of vehicle_body_type")
-        plt.xlabel('Vehicle Body Type')
-        plt.ylabel('Ticket Frequency')
-        plt.savefig('../output/violations_by_bodytype.png')
+      ax = vehicleBodyType_for_plot.head(10).plot.bar(x='vehicle_body_type', y='Ticket_Frequency', figsize=(10, 5))
+      ax.set_title("Vehicle Type vs No. of violations")
+      ax.set_xlabel("Vehicle Type")
+      ax.set_ylabel("No. of Violations")
+      fig = ax.get_figure()
+      fig.savefig('../output/violations_by_bodytype.png')
 
     return vehicleBodyType_for_plot
 
@@ -48,11 +51,11 @@ def violations_by_make(data_frame, enable_plot=True):
     vehicleMake_for_plot = make_type.toPandas()
 
     if enable_plot:
-        plt.clf()
-        vehicleMake_for_plot.head(5).plot(x='vehicle_make',  y='Ticket_Frequency', kind='bar')
-        plt.title("Violations on the basis of vehicle_make")
-        plt.xlabel('Vehicle Make')
-        plt.ylabel('Ticket Frequency')
-        plt.savefig('../output/violations_by_make.png')
+      ax = vehicleMake_for_plot.head(10).plot.bar(x='vehicle_make',  y='Ticket_Frequency', figsize=(10, 5))
+      ax.set_title("Vehicle Make vs No. of violations")
+      ax.set_xlabel("Vehicle Make")
+      ax.set_ylabel("No. of Violations")
+      fig = ax.get_figure()
+      fig.savefig('../output/violations_by_make.png')
 
     return vehicleMake_for_plot
