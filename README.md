@@ -2,44 +2,25 @@
 
 MTech Mini Project
 
-IISC | M.Tech (Online) | DSBA
-DA 231-O Data Engineering at Scale
+IISC | M.Tech (Online) | DSBA DA 231-O Data Engineering at Scale
 
 Mentor: **Yogesh Simmhan**
-simmhan@iisc.ac.in
+simmhan @ iisc.ac.in
 
 ## TEAM
 
-```
-Satyam Kumar
-satyamk@iisc.ac.in
-9092696415
-```
-
-```
-Siva Kranthi Kumar Mallipeddi
-sivam@iisc.ac.in
-9986778909
-```
-```
-Sreedhar Reddy Vundela
-sreedharv@iisc.ac.in
-9886702749
-```
-
-```
-Sudhakar Kulkarni Mukayya
-sudhakark@iisc.ac.in
-9035076656
-```
+1. Satyam Kumar | satyamk@iisc.ac.in
+2. Siva Kranthi Kumar Mallipeddi | sivam @ iisc.ac.in
+3. Sreedhar Reddy Vundela | sreedharv @ iisc.ac.in
+4. Sudhakar Kulkarni Mukayya | sudhakark @ iisc.ac.in
 
 
 ## PROBLEM
 
 
-→ Analyzing **NYC Parking violation** data from **2017** – **2021**
+→ Analyzing **NYC Parking violation** data for **2017** – **2021** years
 
-https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2022/pvqr-7yc
+https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2022/pvqr-7yc4
 
 → Infer from the data analysis findings
 
@@ -62,8 +43,7 @@ https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Y
 ```
 → Selecting subset of the data as it is huge
 
-→ Load data into RDD. Use **_Summons Number_** as key &
-remaining columns as value
+→ Load data into RDD. Use **_Summons Number_** as key & remaining columns as value
 
 → Replace/discard Invalid data
 
@@ -78,12 +58,9 @@ remaining columns as value
 ### APPROACH: Basic Analysis
 
 ```
-1) How often does each violation code occur? (frequency of
-violation codes find the top 5)
+1) How often does each violation code occur? (frequency of violation codes find the top 5)
 
-2) How often does each vehicle body type get a parking
-ticket? How about the vehicle make? (find the top 5 for
-both)
+2) How often does each vehicle body type get a parking ticket? How about the vehicle make? (find the top 5 for both)
 ```
 
 ### APPROACH: Precinct based Analysis
@@ -91,13 +68,11 @@ both)
 A **precinct** is a police station that has a certain zone of the city under its command. Find the (5 highest) frequencies of:
 
 ```
-1) Violating Precincts (this is the precinct of the zone where
-the violation occurred)
+1) Violating Precincts (this is the precinct of the zone where the violation occurred)
 
 2) Issuing Precincts (this is the precinct that issued the ticket)
 
-3) Find the violation code frequency across 3 precincts which
-have issued the most number of tickets
+3) Find the violation code frequency across 3 precincts which have issued the most number of tickets
 ```
 
 ### APPROACH: Time based Analysis
@@ -105,30 +80,24 @@ have issued the most number of tickets
 > The Violation Time field is specified in a strange format. Find a way to make this into a time attribute that we can use to divide into groups
 
 ```
-1) Divide 24 hours into 6 equal discrete bins of time. For each of
-these groups, find the 3 most commonly occurring violations
+1) Divide 24 hours into 6 equal discrete bins of time. For each of these groups, find the 3 most commonly occurring violations
 
-2) For the 3 most commonly occurring violation codes, find the
-most common times of day (in terms of the bins from the
-previous part)
+2) For the 3 most commonly occurring violation codes, find the most common times of day (in terms of the bins from the previous part)
 ```
 
 ### APPROACH: Year / Season based Analysis
 
 ```
-1) What is the average reduction in violations for the year 2020
-compared to 2019 (due to COVID), and year 2019 compared to
-2018
+1) What is the average reduction in violations for the year 2020 compared to 2019 (due to COVID), and year 2019 compared to 2018
 
-2) Divide the year into 3 number of seasons, and find frequencies of
-tickets for each season
+2) Divide the year into 3 number of seasons, and find frequencies of tickets for each season
 
 3) Find the 3 most common violations for each of these season
 ```
 
 ### APPROACH: Revenue based Analysis
 
-The fines collected from all the parking violation constitute a revenue source for the NYC police department. Gather the fine amounts for each code from NYC site https://www1.nyc.gov/site/finance/vehicles/services-violation-codes.page
+The fines collected from all the parking violation constitute a revenue source for the NYC police department. Gather the fine mounts for each code from NYC site https://www1.nyc.gov/site/finance/vehicles/services-violation-codes.page
 
 ```
 1) Find the total amount collected year wise
@@ -167,4 +136,3 @@ Metrics
 http://www.kaggle.com/sarthaksarbahi/nyc-parking-tickets-analysis
 
 http://www.slidescarnival.com
-

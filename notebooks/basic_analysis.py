@@ -12,8 +12,8 @@ def violation_frequencey(data_frame):
     q3_for_plot = violation_count.toPandas()
     plt.clf()
     q3_for_plot.head(5).plot(x='violation_code', y='no_of_tickets', kind='bar')
-    plt.show()
-    return violation_count
+    plt.savefig('../output/violation_frequencey.png')
+    return q3_for_plot
 
 def violations_by_bodytype(data_frame):
     #body_type = 0
@@ -29,8 +29,8 @@ def violations_by_bodytype(data_frame):
     plt.title("Violations on the basis of vehicle_body_type")
     plt.xlabel('Vehicle Body Type')
     plt.ylabel('Ticket Frequency')
-    plt.show() 
-    return body_type
+    plt.savefig('../output/violations_by_bodytype.png')
+    return vehicleBodyType_for_plot
 
 def violations_by_make(data_frame):
     make_type  = data_frame.select('vehicle_make')\
@@ -45,5 +45,6 @@ def violations_by_make(data_frame):
     plt.title("Violations on the basis of vehicle_make")
     plt.xlabel('Vehicle Make')
     plt.ylabel('Ticket Frequency')
-    plt.show()
-    return make_type
+    plt.savefig('../output/violations_by_make.png')
+    return vehicleMake_for_plot
+
