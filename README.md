@@ -1,5 +1,11 @@
 # NYC Parking Violation Data Analysis
 
+## How to run?
+
+* Clone the repo
+* **Open ./notebooks/nyc_parking_analysis.ipynb file to run the code**
+
+
 MTech Mini Project
 
 IISC | M.Tech (Online) | DSBA DA 231-O Data Engineering at Scale
